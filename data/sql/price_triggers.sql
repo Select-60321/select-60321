@@ -23,7 +23,7 @@ create or replace function update_order_price()
     returns trigger
 as $$
     begin
-        if new.ticket_price <> old.ticket_price
+        if new.ticket_price <> old.ticket_price or new.ticket_active <> old.ticket_active
         then
             update orders o
             set order_price =
