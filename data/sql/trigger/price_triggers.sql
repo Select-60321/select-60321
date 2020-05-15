@@ -27,7 +27,9 @@ as $$
         then
             update orders o
             set order_price =
-                (select sum(t.ticket_price) from tickets t where t.order_id = o.order_id)
+                coalesce((select sum(t.ticket_price) from tickets t
+                where t.order_id = o.order_id
+                  and t.ticket_active = 0), 0)
             where o.order_id = new.order_id;
         end if;
         return new;
