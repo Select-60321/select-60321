@@ -1,0 +1,52 @@
+body
+{
+    margin: 0;
+    padding: 0;
+}
+.header
+{
+    height: 100vh;
+    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(/image/maintrain.png);
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Comic Sans MS";
+}
+h1
+{
+    color: yellow;
+    margin-bottom: 20px;
+    font-size: 55px;
+    letter-spacing: 2px;
+    text-align: center;
+}
+.labels
+{
+    color: #b1f6fc;
+    font-size: 20px;
+    font-weight: bold;
+}
+.btn
+{
+    display: inline-block;
+    border-radius: 5px;
+    border: none;
+    font-size: 15px;
+    padding: 8px;
+    width: 60px;
+    cursor: pointer;
+}
+#nameId
+{
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+}
+#passwordId
+{
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+}
