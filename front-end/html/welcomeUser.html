@@ -1,0 +1,44 @@
+<!DOCTYPE HTML><!-- PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd"-->
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>60321火车票查询</title>
+        <link rel="stylesheet" type="text/css" href="/css/welcomeUser.css"/>
+    </head>
+    <body>
+        <div class="navigator">
+            <ul id="menu">
+                <li><h1 id="greet" th:text="'你好！ '+${userName}"></h1></li>
+                <li><a href="./loginUser.html" th:href="@{/user/outUser}">←登出</a></li>
+                <li><a href="./orderInfo.html" th:href="@{/user/getOrder?orderId}">获取个人订单信息</a></li>
+            </ul>
+        </div>
+        <div class="search">
+            <form action="/user/getSSInfo" method="post">
+                <h2>始发站-终点站查询</h2>
+                <input class="input" type="text" name="station1" placeholder="请输入始发站">
+                <input class="input" type="text" name="station2" placeholder="请输入终点站">
+                <input class="input" type="text" name="date" placeholder="发车日期">
+                <button class="btn" type="submit" value="Submit">搜索</button>
+            </form>
+        </div>
+        <div class="search">
+            <form action="/user/getCCInfo" method="post">
+                <h2>始发城市-终点城市查询</h2>
+                <input class="input" type="text" name="city1" placeholder="请输入始发城市">
+                <input class="input" type="text" name="city2" placeholder="请输入终点城市">
+                <input class="input" type="text" name="date" placeholder="发车日期">
+                <button class="btn" type="submit" value="Submit">搜索</button>
+            </form>
+        </div>
+        <div class="search">
+            <form action="/user/getT" method="post">
+                <h2>车次查询</h2>
+                <input class="input"type="text" name="trainNumber" placeholder="请输入车次">
+                <button class="btn" type="submit" value="Submit">搜索</button>
+            </form>
+        </div>
+    </body>
+</html>

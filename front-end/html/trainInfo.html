@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
+    <head>
+        <meta charset="UTF-8">
+        <title>车次查询</title>
+        <link rel="stylesheet" type="text/css" href="/css/trainInfo.css"/>
+    </head>
+    <body>
+        <div class="result-table">
+            <h2>车次查询</h2>
+            <h3 th:text="${trainNumber}"></h3>
+            <table>
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>车次</th>
+                    <th>车站名</th>
+                    <th>城市</th>
+                    <th>省份</th>
+                    <th>到达时间</th>
+                    <th>天数</th>
+                    <th>开车时间</th>
+                    <th>天数</th>
+                    <th>累计里程</th>
+                    <th>车站状态</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="info,it:${infoList}">
+                    <td th:text="${it.count}"></td>
+                    <td th:text="${info.trainId}"></td>
+                    <td th:text="${info.stationName}"></td>
+                    <td th:text="${info.cityName}"></td>
+                    <td th:text="${info.province}"></td>
+                    <td th:text="${info.arriveTime}"></td>
+                    <td th:text="${info.arriveDay}"></td>
+                    <td th:text="${info.departTime}"></td>
+                    <td th:text="${info.departDay}"></td>
+                    <td th:text="${info.accumulatedDistance}"></td>
+                    <td th:switch="${info.stationStatus}">
+                        <span th:case="Normal">正常运行</span>
+                        <span th:case="No stop!" style="color: red">站点取消</span>
+                        <span th:case="Cancelled" style="color: red">列车取消</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <a href="./welcomeUser.html" th:href="@{/user/welcomeUser}">点击回到查询界面</a>
+        </div>
+    </body>
+</html>

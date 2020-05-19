@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
+    <head>
+        <meta charset="UTF-8">
+        <title>订单查询</title>
+        <link rel="stylesheet" type="text/css" href="/css/orderInfo.css"/>
+    </head>
+    <body>
+    <div>
+        <div class="personal-panel">
+            <img src="/image/avatar.png" class="avatar">
+            <p class="username" th:text="${user_name}"></p>
+            <br>
+            <p class="link"><a href="./welcomeUser.html" th:href="@{/user/welcomeUser}">点击回到查询界面</a></p>
+        </div>
+        <div class="divider"></div>
+        <h1>~订单查询~</h1>
+        <table>
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>订单号</th>
+                <th>订单创建时间</th>
+                <th>票状态</th>
+                <th>用户名</th>
+                <th>开车日期</th>
+                <th>车次</th>
+                <th>上车站</th>
+                <th>上车站状态</th>
+                <th>下车站</th>
+                <th>下车站状态</th>
+                <th>开车时间</th>
+                <th>到站时间</th>
+                <th>车厢</th>
+                <th>座位号</th>
+                <th>座位种类</th>
+                <th>票价</th>
+                <th>总里程</th>
+                <th>退票</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="info,it:${orderList}">
+                <td th:text="${it.count}"></td>
+                <td th:text="${info.orderId}"></td>
+                <td th:text="${#strings.abbreviate(info.createDate,22)}"></td>
+                <td th:switch="${info.ticketStatus}">
+                    <span th:case="Bought">已买</span>
+                    <span th:case="Refund" style="color: red">退款</span>
+                </td>
+                <td th:text="${info.userName}"></td>
+                <td th:text="${info.departDate}"></td>
+                <td th:text="${info.trainId}"></td>
+                <td th:text="${info.fromStation}"></td>
+                <td th:switch="${info.fromStationStatus}">
+                    <span th:case="Normal">正常运行</span>
+                    <span th:case="Nopassing" style="color: red">不停此站</span>
+                    <span th:case="cancelled" style="color: red">列车取消</span>
+                </td>
+                <td th:text="${info.toStation}"></td>
+                <td th:switch="${info.toStationStatus}">
+                    <span th:case="Normal">正常运行</span>
+                    <span th:case="Nopassing" style="color: red">不停此站</span>
+                    <span th:case="cancelled" style="color: red">列车取消</span>
+                </td>
+                <td th:text="${info.departureTime}"></td>
+                <td th:text="${info.arrivalTime}+'+'+${info.arrivalDay-info.departureDay}"></td>
+                <td th:text="${info.carriageNo}"></td>
+                <td th:text="${info.seatNum}"></td>
+                <td th:text="${info.seatType}"></td>
+                <td th:text="${info.ticketPrice}"></td>
+                <td th:text="${info.totalDistance}"></td>
+                <td>
+                    <a href="./refund.html"
+                       th:href="@{/user/refund(tid=${info.ticketId})}">退票</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    </body>
+</html>
