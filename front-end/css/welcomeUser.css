@@ -1,0 +1,95 @@
+body
+{
+    margin: 0;
+    padding: 0;
+    font-family: 微软雅黑;
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/image/welcome.png') center;
+    background-size: cover;
+    text-align: center;
+}
+.navigator
+{
+    background: linear-gradient(to bottom, gainsboro, white);
+}
+#menu
+{
+    margin: 0;
+    padding: 0;
+}
+#menu li
+{
+    list-style: none;
+    display: inline-block;
+}
+#menu li #greet
+{
+    text-decoration: none;
+    position: relative;
+    color: #313131;
+    font-size: 24px;
+    font-weight: 500;
+    font-family: "Comic Sans MS";
+    display: block;
+    overflow: hidden;
+    transition: 0.7s all;
+    padding: 0px 15px;
+}
+#menu li a
+{
+    text-decoration: none;
+    position: relative;
+    color: #313131;
+    font-size: 24px;
+    font-weight: 500;
+    font-family: "Comic Sans MS";
+    display: block;
+    overflow: hidden;
+    transition: 0.7s all;
+    padding: 14px 25px;
+}
+#menu li a:before
+{
+    content: '';
+    width: 240px;
+    position: absolute;
+    border-bottom: 6px solid #313131;
+    bottom: 0;
+    right: 350px;
+    transition: 0.7s all;
+}
+#menu li a:hover:before
+{
+    right: 0;
+}
+.search
+{
+    padding: 20px;
+    align-items: center;
+}
+.search h2
+{
+    color: white;
+}
+.input
+{
+    height: 40px;
+    padding: 10px;
+    border-radius: 25px;
+    border-color: black;
+    width: 250px;
+    font-size: 20px;
+}
+.btn
+{
+    height: 50px;
+    width: 150px;
+    border-radius: 25px;
+    background: #dddddd;
+    border-color: black;
+    font-size: 20px;
+}
+.btn:hover
+{
+    background: #b3b3b3;
+    cursor: pointer;
+}
