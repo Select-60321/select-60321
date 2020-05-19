@@ -12,14 +12,15 @@
             <form action="/admin/logInAdmin" method="post">
                 <h1>后端管理系统登录</h1>
                 <label for="nameId" class="labels">用户名:</label>
-                <input type="text" placeholder="admin name" name="userName" id="nameId" th:value="${userName}">
+                <input class="input" type="text" placeholder="admin name" name="userName" id="nameId" th:value="${userName}">
                 <br>
 <!--                <p th:text="${errorMsg_0}">错误信息</p>-->
                 <label for="passwordId" class="labels">密码:</label>
-                <input type="password" placeholder="password" name="password" id="passwordId">
+                <input class="input" type="password" placeholder="password" name="password" id="passwordId">
                 <br>
                 <p th:text="${errorMsg_0}">错误信息</p>
                 <button type="submit" class="btn">登录</button>
+                <br>
                 <a style="background-color: ghostwhite; padding: 5px" href="loginUser.html" , th:href="@{/user/logInUser}">用户登录入口</a>
             </form>
 <!--            <p th:text="${errorMsg_0}">错误信息</p>-->
