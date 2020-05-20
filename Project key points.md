@@ -108,6 +108,10 @@ http://www.huochepiao.net/chaxun/resultc.asp?txtCheCi=
 
 
 
+另外还使用了md5加密算法保存密码。
+
+
+
 ## Front-end Part
 
 主要负责人：**聂秋实**
