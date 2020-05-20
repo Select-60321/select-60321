@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo59.mapper.TrainMapper">
+    <!--    <cache></cache>-->
+    <!--  第三方二级缓存，不要实现序列化接口-->
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache">
+        <!--    缓存创建之后，最后一次访问缓存的时间至缓存失效的时间间隔-->
+        <property name="timeToIdleSeconds" value="3600"/>
+        <!--    缓存自创建时间起至失效的时间间隔-->
+        <property name="timeToLiveSeconds" value="3600"/>
+        <!--    缓存回收策略，LRU表示溢出近期使用最少的对象-->
+        <property name="memoryStoreEvictionPolicy" value="LRU"/>
+
+        <property name="maxEntriesLocalHeap" value="1000"/>
+
+        <property name="maxEntriesLocalDisk" value="10000000"/>
+    </cache>
+
+    <select id="trainDetailsByTrainNumber" resultType="com.example.demo59.entity.Train" useCache="false">
+        select train_id,
+               station_index,
+               station_name,
+               city_name,
+               province,
+               arrive_time,
+               depart_time,
+               arrive_day,
+               depart_day,
+               distance                                                                   accumulated_distance,
+               case status when 0 then 'Normal' when 1 then 'Nostop' else 'Cancelled' end station_status
+        from journeys j
+                 join stations s on j.station_id = s.station_id
+                 join cities c on s.city_id = c.city_id
+        where j.train_id = #{param1}
+        order by station_index;
+    </select>
+
+    <select id="getOrderDetails" parameterType="com.example.demo59.entity.SearchForOrdersWrapper"
+            resultType="com.example.demo59.entity.OrdersDetails" useCache="false">
+        select x.order_id,
+        create_date createDate,
+        case o.order_status when 0 then 'NOT paid yet!' when 1 then 'Paid' when 2 then 'All refund!' end order_status,
+        u.user_name,
+        ticket_id,
+        case x.ticket_active_int
+        when 0 then 'Bought'
+        else 'Refund' end ticket_status,
+        depart_date,
+        train_id,
+        s1.station_name from_station,
+        case from_status
+        when 0 then 'Normal'
+        when 1 then 'Nopassing'
+        else 'cancelled'
+        end from_station_status,
+        s2.station_name to_station,
+        case to_status
+        when 0 then 'Normal'
+        when 1 then 'Nopassing'
+        else 'cancelled'
+        end to_station_status,
+        departure_time,
+        departure_day,
+        arrival_time,
+        arrival_day,
+        carriage_no,
+        ticket_price,
+        seat_type,
+        seat_num,
+        total_distance
+        from (select t.ticket_id,
+        t.seat_num seat_num,
+        t.order_id,
+        t.depart_date,
+        j.train_id,
+        t.ticket_active ticket_active_int,
+        j2.station_id from_station_id,
+        j2.status from_status,
+        j.station_id to_station_id,
+        j.status to_status,
+        j2.depart_time departure_time,
+        j2.depart_day departure_day,
+        j.arrive_time arrival_time,
+        j.arrive_day arrival_day,
+        t.carriage_id carriage_no,
+        t.ticket_price ticket_price,
+        st.seat_name seat_type,
+        j.distance - j2.distance total_distance
+        from tickets t
+        join journeys j on t.arrive_journey = j.journey_id
+        join journeys j2 on j2.journey_id = t.depart_journey
+        join seat_type st on t.seat_type_id = st.seat_type_id
+        join stations s on j.station_id = s.station_id) x
+        join stations s1 on from_station_id = s1.station_id
+        join stations s2 on to_station_id = s2.station_id
+        join orders o on o.order_id = x.order_id
+        join users u on o.person = u.user_id
+        <where>
+            <if test="userName!=null">
+                u.user_name = #{userName}
+            </if>
+            <if test="orderId!=null">
+                and o.order_id = #{orderId}
+            </if>
+        </where>
+    </select>
+
+    <select id="getNumberOfCertainTrainCertainSeatType" resultType="java.lang.Integer" useCache="true">
+        select sum(c.seat_num)
+        from carriages c
+                 join seat_type st on c.seat_type_id = st.seat_type_id
+        where c.train_number = #{param1}
+          and st.seat_name = #{param2};
+    </select>
+
+    <select id="findTicketsBetweenStations" resultType="com.example.demo59.entity.BetweenStationsInfo" useCache="false">
+        select distinct trainid
+                      , journeyidfrom
+                      , fromstation
+                      , stationIdxFrom
+                      , journeyidto
+                      , tostation
+                      , stationIdxTo
+                      , fromdeparttime
+                      , fromdepartday
+                      , toarrtime
+                      , toarriveday
+                      , totaldistance
+                      , st.seat_name                                  seatname
+                      , st.seat_type_id                               seatTypeId
+                      , cast(totaldistance * seat_basic_price as int) ticketprice
+                      , status                                        trainstatus
+
+        from (
+                 select x.journey_id             journeyidfrom,
+                        x.station_index          stationIdxFrom,
+                        j2.journey_id            journeyidto,
+                        x.train_id               trainid,
+                        x.station_name           fromstation,
+                        s2.station_name          tostation,
+                        j2.station_index         stationIdxTo,
+                        x.depart_time            fromdeparttime,
+                        x.depart_day             fromdepartday,
+                        j2.arrive_time           toarrtime,
+                        j2.arrive_day            toarriveday,
+                        j2.distance - x.distance totaldistance,
+                        case x.status + j2.status
+                            when 0 then 'Normal'
+                            when 1 then 'Nopassing'
+                            when 2 then 'Nopassing'
+                            else 'cancelled' end status
+                 from (select *
+                       from journeys j
+                                join stations s on j.station_id = s.station_id
+                       where s.station_name = #{param1}) x
+                          join journeys j2 on x.train_id = j2.train_id
+                          join stations s2 on j2.station_id = s2.station_id
+                 where s2.station_name = #{param2}
+                   and x.station_index &lt; j2.station_index
+             ) y
+                 join carriages c on y.trainid = c.train_number
+                 join seat_type st on c.seat_type_id = st.seat_type_id
+        order by trainid, ticketprice desc;
+    </select>
+
+    <select id="findTicketsBetweenCities" resultType="com.example.demo59.entity.BetweenCitiesInfo" useCache="false">
+        select distinct journeyidfrom,
+                        journeyidto,
+                        trainnum,
+                        stationidxfrom,
+                        stationfrom,
+                        fromlocationcity,
+                        stationidxto,
+                        stationto,
+                        tolocationcity,
+                        starttime,
+                        startday,
+                        endtime,
+                        endday,
+                        totaldistance,
+                        st.seat_type_id                               seat_type_id,
+                        st.seat_name                                  seatname,
+                        cast(totaldistance * seat_basic_price as int) ticketprice,
+                        status                                        trainstatus
+        from (
+                 select journeyidfrom,
+                        trainnum,
+                        stationidxfrom,
+                        stationfrom,
+                        fromlocationcity,
+                        j2.journey_id               journeyidto,
+                        j2.station_index            stationidxto,
+                        s2.station_name             stationto,
+                        c2.city_name                tolocationcity,
+                        starttime,
+                        startday,
+                        j2.arrive_time              endtime,
+                        j2.arrive_day               endday,
+                        j2.distance - startdistance totaldistance,
+                        case startstatus + j2.status
+                            when 0 then 'Normal'
+                            when 1 then 'Nopassing'
+                            when 2 then 'Nopassing'
+                            else 'cancelled' end    status
+                 from (select j.journey_id    journeyidfrom,
+                              j.train_id      trainnum,
+                              s.station_name  stationfrom,
+                              c.city_name     fromlocationcity,
+                              j.station_index stationidxfrom,
+                              j.depart_time   starttime,
+                              j.depart_day    startday,
+                              j.distance      startdistance,
+                              j.status        startstatus
+                       from journeys j
+                                join stations s on j.station_id = s.station_id
+                                join cities c on s.city_id = c.city_id
+                       where c.city_name = #{param1}) x
+                          join journeys j2 on x.trainnum = j2.train_id
+                          join stations s2 on j2.station_id = s2.station_id
+                          join cities c2 on s2.city_id = c2.city_id
+                 where c2.city_name = #{param2}
+                   and x.stationidxfrom &lt; j2.station_index) y
+                 join carriages c3 on y.trainnum = c3.train_number
+                 join seat_type st on c3.seat_type_id = st.seat_type_id
+        order by trainnum, ticketprice desc;
+    </select>
+
+    <select id="getCarriageNoFromSeatType" resultType="com.example.demo59.entity.CarriageNoAndSeatNo" useCache="true">
+        select carriage_index, seat_num
+        from carriages
+        where train_number = #{param1}
+          and seat_type_id = #{param2};
+    </select>
+
+    <select id="getTrainCarriageNowBoughtTickets" resultType="java.lang.Integer" useCache="false">
+        select count(*)
+        from tickets t
+                 join journeys j on t.arrive_journey = j.journey_id
+                 join journeys j2 on t.depart_journey = j2.journey_id
+        where j.train_id = #{param1}
+          and carriage_id = #{param2}
+          and j2.station_index &gt;= #{param3}
+          and j.station_index &lt;= #{param4}
+          and depart_date = #{param5}
+    </select>
+
+    <select id="getTrainBoughtCertainTickets" resultType="int" useCache="false">
+        select count(*)
+        from tickets t
+                 join journeys j on t.arrive_journey = j.journey_id
+                 join journeys j2 on t.depart_journey = j2.journey_id
+        where j.train_id = #{param1}
+          and seat_type_id = #{param2}
+          and j2.station_index &gt;= #{param3}
+          and j.station_index &lt;= #{param4}
+          and depart_date = #{param5}
+          and t.ticket_active = 0;
+    </select>
+
+    <select id="getTrainBoughtCertainTicketsCalculateSeatNum" resultType="int" useCache="false">
+        select count(*)
+        from tickets t
+                 join journeys j on t.arrive_journey = j.journey_id
+                 join journeys j2 on t.depart_journey = j2.journey_id
+        where j.train_id = #{param1}
+          and seat_type_id = #{param2}
+          and j2.station_index &gt;= #{param3}
+          and j.station_index &lt;= #{param4}
+          and depart_date = #{param5}
+    </select>
+
+    <update id="updateByPrimaryKeySelective" parameterType="java.lang.Integer">
+        update "tickets"
+        set ticket_active=2
+        where ticket_id = #{id};
+    </update>
+
+    <select id="findOrderId" parameterType="java.lang.Integer" resultType="java.lang.Integer" useCache="false">
+        select order_id
+        from tickets
+        where ticket_id = #{id};
+    </select>
+</mapper>

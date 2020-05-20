@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo59.mapper.JourneysMapper">
+    <sql id="Base_Column_List">
+        journey_id, train_id, station_index, station_id, arrive_time, depart_time, arrive_day,
+    depart_day, distance
+    </sql>
+
+    <select id="selectByTrainNumber" parameterType="java.lang.String"
+            resultType="com.example.demo59.entity.Journeys" useCache="false">
+        select
+        <include refid="Base_Column_List"/>
+        from "journeys"
+        where train_id = #{trainNumber,jdbcType=VARCHAR}
+    </select>
+
+    <insert id="insertOneNewTrainIntoJourney" parameterType="com.example.demo59.entity.Journeys">
+        insert into journeys (train_id,station_index, station_id,
+        arrive_time, depart_time, arrive_day,
+        depart_day, distance)
+        values
+        <foreach collection="journeysList" index="index" item="journeys" separator="," close=";">
+            (#{journeys.trainId,jdbcType=VARCHAR},#{journeys.stationIndex,jdbcType=INTEGER},
+            #{journeys.stationId,jdbcType=INTEGER},
+            #{journeys.arriveTime,jdbcType=TIME}, #{journeys.departTime,jdbcType=TIME},
+            #{journeys.arriveDay,jdbcType=INTEGER},
+            #{journeys.departDay,jdbcType=INTEGER}, #{journeys.distance,jdbcType=INTEGER})
+        </foreach>
+    </insert>
+
+    <insert id="insertOneStation" parameterType="com.example.demo59.entity.Journeys">
+        insert into journeys (train_id, station_index, station_id, arrive_time, depart_time, arrive_day, depart_day,
+                              distance)
+        VALUES (#{trainId}, #{stationIndex}, #{stationId}, #{arriveTime}, #{departTime}, #{arriveDay}, #{departDay},
+                #{distance})
+    </insert>
+
+    <update id="validateStation">
+        update journeys
+        set status = #{param3}
+        where train_id = #{param1}
+          and station_index = #{param2};
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.example.demo59.entity.Journeys">
+        update "journeys"
+        set train_id      = #{trainId,jdbcType=VARCHAR},
+            station_index = #{stationIndex,jdbcType=INTEGER},
+            station_id    = #{stationId,jdbcType=INTEGER},
+            arrive_time   = #{arriveTime,jdbcType=TIME},
+            depart_time   = #{departTime,jdbcType=TIME},
+            arrive_day    = #{arriveDay,jdbcType=INTEGER},
+            depart_day    = #{departDay,jdbcType=INTEGER},
+            distance      = #{distance,jdbcType=INTEGER}
+        where journey_id = #{journeyId,jdbcType=INTEGER}
+    </update>
+
+    <update id="cancelOneTrain">
+        update journeys
+        set status = #{param2}
+        where train_id = #{param1};
+    </update>
+</mapper>

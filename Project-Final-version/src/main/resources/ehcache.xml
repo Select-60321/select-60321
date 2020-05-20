@@ -1,0 +1,27 @@
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../config/ehcache.xsd">
+    <!--diskStore：缓存数据持久化的目录 地址  -->
+    <diskStore path="F:\develop\ehcache" />
+    <defaultCache>
+        <!-- maxElementsInMemory: 内存中缓存的element的最大数目-->
+        maxElementsInMemory="1000"
+        <!-- maxElementsOnDisk:在磁盘上缓存的element的最大数目，默认值为0，表示不限制 -->
+        maxElementsOnDisk="10000000"
+        <!-- eternal: 设定缓存的elements是否过期。如果为true，则缓存的数据始终有效,如果是false，
+                      要根据timeToIdleSeconds，timeToLiveSeconds判断 -->
+        eternal="false"
+        <!-- overflowToDisk：内存中数据超过限制，是否需要缓存到磁盘上 -->
+        overflowToDisk="false"
+        <!-- diskPersistent：是否在磁盘上持久化，重启jvm后，数据是否有效 -->
+        diskPersistent="true"
+        <!-- timeToIdleSeconds：对象空闲时间，只对eternal属性为false起作用  -->
+        timeToIdleSeconds="120"
+        <!-- timeToLiveSeconds：对象存活时间，只对eternal属性为false起作用  -->
+        timeToLiveSeconds="120"
+        <!-- 磁盘缓存的清理线程运行间隔 -->
+        diskExpiryThreadIntervalSeconds="120"
+        <!-- memoryStoreEvictionPolicy：超过内存空间，向磁盘存储数据的策略，
+             可选：LRU 最近最少使用 FIFO 先进先出  LFU 最少使用-->
+        memoryStoreEvictionPolicy="LRU">
+    </defaultCache>
+</ehcache>

@@ -1,0 +1,57 @@
+<!DOCTYPE HTML><!-- PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd"-->
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:th="http://thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>用户注册</title>
+        <link rel="stylesheet" type="text/css" href="/css/register.css"/>
+    </head>
+    <body>
+        <div class="login-form">
+            <h1>用户注册</h1>
+            <form action="/user/register" method="post">
+                <div class="form-input">
+                    <input type="text" name="userName" id="nameId" th:value="${userName}" placeholder="用户名">
+                </div>
+                <div class="form-input">
+                    <input type="password" name="password" id="passwordId" placeholder="密码">
+                </div>
+                <div class="form-input">
+                    <input type="password" name="confirmPassword" id="confirmPasswordId" placeholder="确认密码">
+                </div>
+                <div class="form-input">
+                    <input type="text" name="phoneNumber" id="phoneNumberID" placeholder="联系电话(11位)">
+                </div>
+                <div class="form-input">
+                    <input type="text" name="idCardNum" id="idCardNumID" placeholder="身份证号">
+                </div>
+                <div class="form-input">
+                    <button type="submit" name="submit">注 册</button>
+                    <button type="reset" name="clear">重 填</button>
+                </div>
+<!--                这下面的是你原来写的，我没有删-->
+<!--                <label for="nameId">用户名</label>-->
+<!--                <input type="text" name="userName" id="nameId" th:value="${userName}">-->
+<!--                <br>-->
+<!--                <label for="passwordId">密码:</label>-->
+<!--                <input type="password" name="password" id="passwordId">-->
+<!--                <br>-->
+<!--                <label for="confirmPasswordId">确认密码:</label>-->
+<!--                <input type="password" name="confirmPassword" id="confirmPasswordId">-->
+<!--                <br>-->
+<!--                <label for="phoneNumberID">手机号(11位):</label>-->
+<!--                <input type="text" name="phoneNumber" id="phoneNumberID">-->
+<!--                <br>-->
+<!--                <label for="idCardNumID">身份证号:</label>-->
+<!--                <input type="text" name="idCardNum" id="idCardNumID">-->
+<!--                <br>-->
+<!--                <input type="submit" name="submit" value="Submit">-->
+    <!--            <input type="submit" name="back" value="Back">-->
+<!--                <input type="reset" name="clear" value="Clear">-->
+                <p th:text="${errorMsg}">错误信息</p>
+                <a href="loginUser.html" , th:href="@{/user/logInUser}">已有账户? 点此跳转登录</a>
+            </form>
+        </div>
+    </body>
+</html>

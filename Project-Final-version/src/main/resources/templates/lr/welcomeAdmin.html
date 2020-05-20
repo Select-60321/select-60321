@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>后台管理系统</title>
+        <link rel="stylesheet" type="text/css" href="/css/welcomeAdmin.css"/>
+    </head>
+    <body>
+        <div class="navigator">
+            <ul id="menu">
+                <li><h1 id="greet">后台管理系统</h1></li>
+                <li><a href="/admin/outAdmin">←退出管理系统</a></li>
+            </ul>
+        </div>
+<!--        <a href="/admin/outAdmin">退出登录</a>-->
+        <div class="search">
+            <form action="/admin/cgst" method="post">
+                <h2>修改车站状态</h2>
+                <input class="input" id="input1" type="text" name="trainNumber" placeholder="请输入车站">
+                <input class="input" id="input2" type="text" name="status" placeholder="修改后状态:取消/恢复">
+                <button class="btn" type="submit" value="Submit">确认</button>
+            </form>
+        </div>
+        <div class="search">
+            <form action="/admin/addsta" method="post">
+                <h2>为一辆车末尾加站</h2>
+                <input class="input" id="input3" type="text" name="trainNumber" placeholder="车次">
+                <input class="input" id="input4" type="text" name="stationId" placeholder="车站号">
+                <input class="input" id="input6" type="text" name="updateDepartTime" placeholder="前站出发时间">
+                <input class="input" id="input8" type="text" name="updateDepartDay" placeholder="前站出发天">
+                <input class="input" id="input5" type="text" name="arriveTime" placeholder="到达时间">
+                <input class="input" id="input7" type="text" name="arriveDay" placeholder="到达天">
+                <input class="input" id="input9" type="text" name="distance" placeholder="累计里程">
+                <button class="btn" type="submit" value="Submit">添加</button>
+            </form>
+        </div>
+        <div class="search">
+            <form action="/admin/cgstot" method="post">
+                <h2>为一辆车取消/恢复站</h2>
+                <input class="input" id="input10" type="text" name="trainNumber" placeholder="车次">
+                <input class="input" id="input11" type="text" name="stationIndex" placeholder="第几站">
+                <input class="input" id="input12" type="text" name="status" placeholder="修改后状态:取消/恢复">
+                <button class="btn" type="submit" value="Submit">确认</button>
+            </form>
+        </div>
+        <div class="search">
+            <form action="/admin/cc" method="post">
+                <h2>取消一趟车</h2>
+                <input class="input" id="input13" type="text" name="trainNumber" placeholder="车次">
+                <input class="input" id="input14" type="text" name="status" placeholder="取消/恢复">
+                <button class="btn" type="submit" value="Submit">确认</button>
+            </form>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,39 @@
+server:
+  port: 9008
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: checker
+    password: 123456
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      auto-commit: true
+      maximum-pool-size: 100
+      idle-timeout: 30000
+      minimum-idle: 10
+      pool-name: ExpendHikariCP
+      max-lifetime: 1800000
+      connection-timeout: 30000
+
+  resources:
+    static-locations: classpath:/templates,classpath:/static
+  favicon:
+    enabled: false
+  thymeleaf:
+    mode: HTML
+    cache: false
+mybatis:
+  mapper-locations: classpath:mapping/*Mapper.xml
+  type-aliases-package: com.example.demo59.entity
+  configuration:
+    map-underscore-to-camel-case: true
+
+#showSql
+logging:
+  level:
+    com:
+      example:
+        demo59:
+          mapper : debug
+

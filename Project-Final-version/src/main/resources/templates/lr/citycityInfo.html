@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
+    <head>
+        <meta charset="UTF-8">
+        <title>城市城市列车查询</title>
+        <link rel="stylesheet" type="text/css" href="/css/citycityInfo.css"/>
+    </head>
+    <body>
+        <div class="result-table">
+            <h2>城市城市列车查询</h2>
+            <h3 th:text="${date}"></h3>
+            <a href="./welcomeUser.html" th:href="@{/user/welcomeUser}">点击回到查询界面</a>
+            <table>
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>车次</th>
+                    <th>上车站</th>
+                    <th>下车站</th>
+                    <th>开车时间</th>
+                    <th>到达时间</th>
+                    <th>总里程</th>
+                    <th>座位种类</th>
+                    <th>票价</th>
+                    <th>火车状态</th>
+                    <th>余票</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="info,it:${infoList}">
+                    <td th:text="${it.count}"></td>
+                    <td th:text="${info.trainNum}"></td>
+                    <td th:text="${info.stationFrom}"></td>
+                    <td th:text="${info.StationTo}"></td>
+                    <td th:text="${info.startTime}"></td>
+                    <td th:text="${info.endTime}+'+'+${info.endDay-info.startDay}"></td>
+                    <td th:text="${info.totalDistance}"></td>
+                    <td th:text="${info.seatName}"></td>
+                    <td th:text="${info.ticketPrice}"></td>
+                    <td th:switch="${info.trainStatus}">
+                        <span th:case="Normal">正常运行</span>
+                        <span th:case="Nopassing" style="color: red">站点取消</span>
+                        <span th:case="cancelled" style="color: red">列车取消</span>
+                    </td>
+                    <td th:text="${info.restTickets}"></td>
+                    <td>
+                        <a href="./purchase.html"
+                           th:href="@{/user/buyCityCityInfo(c1=${info.fromLocationCity},
+                           c2=${info.toLocationCity},d=${date},id=${it.count})}">订票</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo59.mapper.UsersMapper">
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache">
+        <!--    缓存创建之后，最后一次访问缓存的时间至缓存失效的时间间隔-->
+        <property name="timeToIdleSeconds" value="3600"/>
+        <!--    缓存自创建时间起至失效的时间间隔-->
+        <property name="timeToLiveSeconds" value="3600"/>
+        <!--    缓存回收策略，LRU表示溢出近期使用最少的对象-->
+        <property name="memoryStoreEvictionPolicy" value="LRU"/>
+
+        <property name="maxEntriesLocalHeap" value="1000"/>
+
+        <property name="maxEntriesLocalDisk" value="10000000"/>
+    </cache>
+
+    <select id="findUserByUsernameAndPassword" resultType="com.example.demo59.entity.Users" useCache="true">
+        select *
+        from "users"
+        where user_name = #{param1}
+          and password = #{param2}
+    </select>
+
+    <select id="findUserByUsername" parameterType="java.lang.String" resultType="com.example.demo59.entity.Users" useCache="false">
+        select *
+        from "users"
+        where user_name = #{user_name}
+    </select>
+
+    <insert id="insertUser" keyColumn="user_id" keyProperty="userId" parameterType="com.example.demo59.entity.Users"
+            useGeneratedKeys="true">
+        insert into "users" (user_name, phone_number, id_card_num,
+                             "password")
+        values (#{userName,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=CHAR}, #{idCardNum,jdbcType=CHAR},
+                #{password,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="insertOneOrder" parameterType="com.example.demo59.entity.Orders">
+        insert into orders(order_status, order_price, person)
+        values (#{orderStatus}, #{orderPrice}, #{person});
+    </insert>
+
+    <select id="getNewOrders" resultType="com.example.demo59.entity.Orders" useCache="false">
+        select *
+        from orders
+        order by create_date desc
+        limit 1;
+    </select>
+
+    <update id="updateOrderPrice" parameterType="java.lang.Integer">
+        update orders o
+        set order_price =
+                coalesce((select sum(t.ticket_price)
+                          from tickets t
+                          where t.order_id = o.order_id
+                            and t.ticket_active = 0), 0)
+        where o.order_id = #{orderId};
+    </update>
+
+    <insert id="insertTickets" parameterType="com.example.demo59.entity.Tickets">
+        insert into tickets (order_id, carriage_id, depart_journey, arrive_journey, depart_date, ticket_price,
+                             seat_type_id,seat_num)
+        values (#{orderId}, #{carriageId}, #{departJourney}, #{arriveJourney}, #{departDate}, #{ticketPrice},
+                #{seatTypeId},#{seatNum})
+    </insert>
+
+    <insert id="insertMultiTickets" parameterType="java.util.List">
+        insert into tickets (order_id, carriage_id, depart_journey, arrive_journey, depart_date, ticket_price,
+        seat_type_id) values
+        <foreach collection="ticketsList" index="index" item="tickets" separator="," close=";">
+            (#{tickets.orderId}, #{tickets.carriageId}, #{tickets.departJourney}, #{tickets.arriveJourney},
+            #{tickets.departDate}, #{tickets.ticketPrice},
+            #{tickets.seatTypeId})
+        </foreach>
+    </insert>
+
+    <update id="updateOrderStatus">
+        update "orders"
+        set order_status = #{param2}
+        where order_id = #{param1};
+    </update>
+
+</mapper>

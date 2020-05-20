@@ -1,0 +1,23 @@
+#server:
+#  port: 9000
+#
+#spring:
+#  datasource:
+#    driver-class-name: org.postgresql.Driver
+#    url: jdbc:postgresql://localhost:5432/postgres
+#    username: checker
+#    password: lsl213
+#    hikari:
+#      idle-timeout: 60000
+#      maximum-pool-size: 30
+#      minimum-idle: 10
+#    type: com.zaxxer.hikari.HikariDataSource
+##  jpa:
+##    hibernate:
+##      ddl-auto: validate
+##    show-sql: true
+#  thymeleaf:
+#    mode: HTML
+spring:
+  profiles:
+    active: dev

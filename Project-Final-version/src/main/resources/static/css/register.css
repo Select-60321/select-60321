@@ -1,0 +1,73 @@
+body
+{
+    background: url('/image/maintrain.png');
+    background-size: 100% auto;
+}
+.login-form
+{
+    font-family: "微软雅黑 Light";
+    /*position: absolute;*/
+    position: fixed;
+    opacity: 0.8;
+    border-radius: 20px 0 20px 0;
+    top: 50%;
+    left: 50%;
+    width: 300px;
+    transform:  translate(-50%,-50%);
+    padding: 40px 40px;
+    background: white;
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.5);
+}
+.login-form h1
+{
+    margin:0 0 15px;
+    padding: 0;
+    text-align: center;
+}
+.login-form .form-input input
+{
+    outline: none;
+    height: 40px;
+    padding: 5px;
+    margin: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    border: 2px solid rgba(0, 0, 0, 0.82);
+    font-size: 16px;
+}
+.login-form .form-input button[type = "submit"]
+{
+    height: 40px;
+    padding: 5px;
+    margin: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    border: 2px solid rgba(0, 0, 0, 0.82);
+    font-size: 16px;
+    background: #e91e63;
+    color:#fff;
+}
+.login-form .form-input button[type = "reset"]
+{
+    height: 40px;
+    padding: 5px;
+    margin: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    border: 2px solid rgba(0, 0, 0, 0.82);
+    font-size: 16px;
+    background: #e91e63;
+    color:#fff;
+}
+.login-form .form-input button[type = "submit"]:hover
+{
+    background: #26bcff;
+    animation-delay: 1s;
+    cursor: pointer;
+}
+.login-form .form-input button[type = "reset"]:hover
+{
+    background: #26bcff;
+    animation-delay: 1s;
+    cursor: pointer;
+}

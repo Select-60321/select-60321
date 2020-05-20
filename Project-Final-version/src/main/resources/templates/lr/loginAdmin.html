@@ -1,0 +1,29 @@
+<!DOCTYPE HTML> <!--PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd"-->
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>后端管理</title>
+        <link rel="stylesheet" type="text/css" href="/css/loginAdmin.css"/>
+    </head>
+    <body>
+        <div class="header">
+            <form action="/admin/logInAdmin" method="post">
+                <h1>后端管理系统登录</h1>
+                <label for="nameId" class="labels">用户名:</label>
+                <input class="input" type="text" placeholder="admin name" name="userName" id="nameId" th:value="${userName}">
+                <br>
+<!--                <p th:text="${errorMsg_0}">错误信息</p>-->
+                <label for="passwordId" class="labels">密码:</label>
+                <input class="input" type="password" placeholder="password" name="password" id="passwordId">
+                <br>
+                <p th:text="${errorMsg_0}">错误信息</p>
+                <button type="submit" class="btn">登录</button>
+                <br>
+                <a style="background-color: ghostwhite; padding: 5px" href="loginUser.html" , th:href="@{/user/logInUser}">用户登录入口</a>
+            </form>
+<!--            <p th:text="${errorMsg_0}">错误信息</p>-->
+        </div>
+    </body>
+</html>

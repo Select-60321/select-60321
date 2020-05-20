@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo59.mapper.StationsMapper">
+    <select id="selectCityByCityName" parameterType="java.lang.String"
+            resultType="com.example.demo59.entity.Cities" useCache="true">
+        select *
+        from cities
+        where city_name = #{cityName};
+    </select>
+
+<!--    <select id="findStationByName" parameterType="java.lang.String"-->
+<!--            resultType="com.example.demo59.entity.StationReferToCity">-->
+<!--        select station_name,-->
+<!--               city_name,-->
+<!--               province,-->
+<!--               station_active-->
+<!--        from stations s-->
+<!--                 join cities c on s.city_id = c.city_id-->
+<!--        where station_name = #{stationName};-->
+<!--    </select>-->
+    <insert id="insert" keyColumn="station_id" keyProperty="stationId"
+            parameterType="com.example.demo59.entity.Stations" useGeneratedKeys="true">
+        insert into "stations" (station_name, city_id)
+        values (#{stationName,jdbcType=VARCHAR}, #{cityId,jdbcType=INTEGER})
+    </insert>
+
+    <update id="updateActiveInfo" parameterType="java.util.Map">
+        <foreach item="value" index="key" collection="stationNameList.entrySet()" separator=";">
+            update stations set station_active = #{value} where station_name = #{key}
+        </foreach>
+    </update>
+    <update id="updateActiveInfoSingle">
+            update stations set station_active = #{param1} where station_name = #{param2};
+    </update>
+
+<!--    <select id="findStationsByStationNames" parameterType="java.util.List"-->
+<!--            resultType="com.example.demo59.entity.Stations">-->
+<!--        select *-->
+<!--        from stations-->
+<!--        where station_name in-->
+<!--        <foreach collection="stationNameList" index="index" item="item" open="(" separator="," close=")">-->
+<!--            #{item}-->
+<!--        </foreach>-->
+<!--    </select>-->
+</mapper>

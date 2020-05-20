@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>站站列车查询</title>
+        <link rel="stylesheet" type="text/css" href="/css/stastaInfo.css"/>
+    </head>
+    <body>
+        <div class="result-table">
+            <h2>站站列车查询</h2>
+            <h3 th:text="${date}">日期</h3>
+            <p th:text="${errorMsg}" style="color: red">错误信息</p>
+            <a href="./welcomeUser.html" th:href="@{/user/welcomeUser}">点击回到查询界面</a>
+            <table>
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>车次</th>
+                    <th>上车站</th>
+                    <th>下车站</th>
+                    <th>开车时间</th>
+                    <th>到达时间</th>
+                    <th>总里程</th>
+                    <th>座位种类</th>
+                    <th>票价</th>
+                    <th>火车状态</th>
+                    <th>余票</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="info,it:${infoList}">
+                    <td th:text="${it.count}"></td>
+                    <td th:text="${info.trainId}"></td>
+                    <td th:text="${info.fromStation}"></td>
+                    <td th:text="${info.toStation}"></td>
+                    <td th:text="${info.fromDepartTime}"></td>
+                    <td th:text="${info.toArrTime}+'+'+${info.toArriveDay-info.fromDepartDay}"></td>
+                    <td th:text="${info.totalDistance}"></td>
+                    <td th:text="${info.seatName}"></td>
+                    <td th:text="${info.ticketPrice}"></td>
+                    <td th:switch="${info.trainStatus}">
+                        <span th:case="Normal">正常运行</span>
+                        <span th:case="Nopassing" style="color: red">站点取消</span>
+                        <span th:case="cancelled" style="color: red">列车取消</span>
+                    </td>
+                    <td th:text="${info.restTickets}"></td>
+                    <td>
+                        <a href="./purchase.html"
+                           th:href="@{/user/buyStaStaInfo(s1=${info.fromStation},s2=${info.toStation},d=${date},id=${it.count})}">订票</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </body>
+</html>

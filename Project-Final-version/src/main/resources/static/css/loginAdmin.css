@@ -1,0 +1,64 @@
+body
+{
+    background-image: url(/image/maintrain.png);
+    background-size: 100% auto;
+}
+.header
+{
+    font-family: "微软雅黑";
+    /*position: absolute;*/
+    position: fixed;
+    opacity: 0.8;
+    border-radius: 20px 0 20px 0;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    transform:  translate(-50%,-50%);
+    padding: 40px 40px;
+    background: white;
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+.header h1
+{
+    color: black;
+    margin-bottom: 20px;
+    font-size: 45px;
+    letter-spacing: 2px;
+    text-align: center;
+}
+.header .labels
+{
+    color: black;
+    font-size: 30px;
+    font-weight: 600;
+}
+.header .input
+{
+    outline: none;
+    height: 40px;
+    padding: 5px;
+    margin: 10px;
+    box-sizing: border-box;
+    width: 240px;
+    border: 2px solid rgba(0, 0, 0, 0.82);
+    font-size: 16px;
+}
+.btn
+{
+    height: 40px;
+    padding: 5px;
+    margin: 10px;
+    box-sizing: border-box;
+    width: 60px;
+    border: 2px solid rgba(0, 0, 0, 0.82);
+    font-size: 16px;
+    background: #e91e63;
+    color:#fff;
+}
+.btn:hover
+{
+    background: #26bcff;
+    animation-delay: 1s;
+    cursor: pointer;
+}

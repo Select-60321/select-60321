@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo59.mapper.CarriagesMapper">
+    <insert id="insertOneTrainCarriages" parameterType="com.example.demo59.entity.Carriages" >
+        insert into carriages (train_number, carriage_index, seat_type_id, seat_num)
+        values
+        <foreach collection="carriageList" index="index" item="carriage" separator="," close=";">
+            (#{carriage.trainNumber,jdbcType=VARCHAR}, #{carriage.carriageIndex,jdbcType=INTEGER},
+            #{carriage.seatTypeId,jdbcType=INTEGER},
+            #{carriage.seatNum,jdbcType=INTEGER})
+        </foreach>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.example.demo59.entity.Carriages">
+        update carriages
+        <set>
+            <if test="seat_type_id != null">
+                seat_type_id = #{seatTypeId,jdbcType=INTEGER},
+            </if>
+            <if test="seat_num != null">
+                seat_num = #{seatNum,jdbcType=INTEGER},
+            </if>
+        </set>
+        where train_number = #{trainNumber,jdbcType=VARCHAR}
+        and carriage_index = #{carriageIndex,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.example.demo59.entity.Carriages">
+        update "carriages"
+        set seat_type_id = #{seatTypeId,jdbcType=INTEGER},
+            seat_num     = #{seatNum,jdbcType=INTEGER}
+        where train_number = #{trainNumber,jdbcType=VARCHAR}
+          and carriage_index = #{carriageIndex,jdbcType=INTEGER}
+    </update>
+</mapper>
