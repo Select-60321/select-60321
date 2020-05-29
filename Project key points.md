@@ -2,7 +2,7 @@
 
 ## Data Source and manipulations
 
-获取：使用Python爬虫爬取（**黎诗龙**）
+获取：使用Python爬虫爬取（**@lethal233**）
 
 http://www.huochepiao.net/chaxun/resultc.asp?txtCheCi=
 
@@ -12,7 +12,7 @@ http://www.huochepiao.net/chaxun/resultc.asp?txtCheCi=
 
 ## Database Design Part
 
-主要负责人：**聂秋实**
+主要负责人：**@Tloops**
 
 使用数据库：PostgreSQL
 
@@ -82,7 +82,7 @@ http://www.huochepiao.net/chaxun/resultc.asp?txtCheCi=
 
 ## Back-end Part
 
-主要负责人：**黎诗龙**
+主要负责人：**@lethal233**
 
 主要框架：Springboot + MyBatis
 
@@ -114,7 +114,7 @@ http://www.huochepiao.net/chaxun/resultc.asp?txtCheCi=
 
 ## Front-end Part
 
-主要负责人：**聂秋实**
+主要负责人：**@Tloops**
 
 Thymeleaf + HTML + CSS
 

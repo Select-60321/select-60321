@@ -7,7 +7,7 @@ The main part is to implement the simple functions like the 12306 website.
 
 Some of the data are from https://github.com/MogicianXD/TrainCrawler
 
-Our group consists of 2 people: Tloops and lethal233, both sophomore in 2020 spring.
+Our group consists of 2 people: **@Tloops** and **@lethal233**, both sophomore in 2020 spring.
 
 These are our group results.
 
