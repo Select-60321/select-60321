@@ -26,7 +26,7 @@ server:
   port: 9008
 spring:
   datasource:
-	driver-class-name: org.postgresql.Driver
+    driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:<the port of your database>/postgres
     username: <your database username>
     password: <your password>
